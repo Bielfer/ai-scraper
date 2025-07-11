@@ -30,16 +30,15 @@ const formSchema = z.object({
 
 type Props = {
   className?: string;
-  email?: string;
   title: string;
   companyId: string;
 };
 
-export const FormEmail = ({ className, email, title, companyId }: Props) => {
+export const FormEmail = ({ className, title, companyId }: Props) => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: email ?? "",
+      email: "",
     },
   });
   const {
@@ -49,11 +48,7 @@ export const FormEmail = ({ className, email, title, companyId }: Props) => {
   } = form;
 
   const onSubmit = async (values: FormSchema) => {
-    const isAdd = !email;
-
-    if (isAdd) {
-      await actionAddEmail(companyId, values.email);
-    }
+    await actionAddEmail(companyId, values.email);
   };
 
   return (

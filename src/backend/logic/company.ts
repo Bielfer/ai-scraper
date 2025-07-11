@@ -45,3 +45,13 @@ export const addEmail = async ({
 
   await dbUpdateCompany(id, { emails: [...company.emails, email] });
 };
+
+export const deleteEmail = async ({
+  id,
+  emails,
+}: {
+  emails: string[];
+  id: string;
+}) => {
+  await dbUpdateCompany(id, { emails });
+};

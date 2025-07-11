@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 
 import { DialogPOC } from "./dialog-poc";
 import { DialogEmail } from "./dialog-email";
+import { DeleteEmail } from "./delete-email";
 
 import { Avatar, AvatarFallback } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
@@ -35,6 +36,9 @@ const STRINGS = {
     create: "Add a new email",
     edit: "Edit ",
   },
+  serviceLine: "Service line",
+  serviceLines: "Other service lines",
+  noServiceLines: "No other service lines found",
 };
 
 // export const metadata: Metadata = {
@@ -57,6 +61,7 @@ const PageCompany = async ({ searchParams }: PageProps) => {
 
   const initials = getUppercaseInitials(company.company_name);
   const hasPOC = company.poc.length > 0;
+  const hasOtherServiceLines = company.service_line_urls.length > 0;
 
   return (
     <main className="px-6 py-16 md:px-10 md:py-40">
@@ -84,6 +89,16 @@ const PageCompany = async ({ searchParams }: PageProps) => {
           </CardHeader>
 
           <CardContent>
+            <div className="flex items-center gap-x-3">
+              <h3 className="leading-none font-semibold">
+                {STRINGS.serviceLine}
+              </h3>
+            </div>
+
+            <p className="mt-3 mb-6 text-sm text-slate-500">
+              {company.service_line}
+            </p>
+
             <h3 className="leading-none font-semibold">
               {STRINGS.tierOneKeywords}
             </h3>
@@ -141,15 +156,43 @@ const PageCompany = async ({ searchParams }: PageProps) => {
                     <Link href={`mailto:${email}`}>{email}</Link>
                   </Button>
 
-                  <DialogEmail
+                  <DeleteEmail
                     companyId={company.id}
-                    title={`${STRINGS.emailsDialogTitle.edit} ${email}`}
-                    email={email}
-                  >
-                    <PencilIcon className="opacity-0 group-hover:opacity-100" />
-                  </DialogEmail>
+                    emails={company.emails.filter((val) => val !== email)}
+                  />
                 </div>
               ))}
+            </div>
+
+            <h3 className="leading-none font-semibold">
+              {STRINGS.serviceLines}
+            </h3>
+
+            <div className="mt-3 mb-6">
+              {hasOtherServiceLines ? (
+                company.service_line_urls.map((sl) => (
+                  <div key={sl.url} className="group flex items-center gap-x-3">
+                    <Button
+                      variant="link"
+                      asChild={!!sl.url}
+                      size="sm"
+                      className="pl-0"
+                    >
+                      {sl.url ? (
+                        <Link href={sl.url} target="_blank">
+                          {sl.name}
+                        </Link>
+                      ) : (
+                        sl.name
+                      )}
+                    </Button>
+                  </div>
+                ))
+              ) : (
+                <p className="text-sm text-slate-500">
+                  {STRINGS.noServiceLines}
+                </p>
+              )}
             </div>
           </CardContent>
         </Card>
