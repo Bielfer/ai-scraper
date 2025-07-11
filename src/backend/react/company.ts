@@ -1,9 +1,21 @@
 "use server";
 
-import { addEmail, deleteEmail, updatePOC } from "../logic/company";
+import {
+  addEmail,
+  deleteEmail,
+  updatePOC,
+  updateServiceLine,
+} from "../logic/company";
 
 export const actionUpdatePOC = async (id: string, poc: string) => {
   await updatePOC({ id, poc });
+};
+
+export const actionUpdateServiceLine = async (
+  id: string,
+  serviceLine: string,
+) => {
+  await updateServiceLine({ id, serviceLine });
 };
 
 export const actionAddEmail = async (id: string, email: string) => {

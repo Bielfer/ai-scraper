@@ -34,6 +34,16 @@ export const updatePOC = async ({ id, poc }: { poc: string; id: string }) => {
   await dbUpdateCompany(id, { poc });
 };
 
+export const updateServiceLine = async ({
+  id,
+  serviceLine,
+}: {
+  serviceLine: string;
+  id: string;
+}) => {
+  await dbUpdateCompany(id, { service_line: serviceLine });
+};
+
 export const addEmail = async ({
   id,
   email,

@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { DialogPOC } from "./dialog-poc";
 import { DialogEmail } from "./dialog-email";
 import { DeleteEmail } from "./delete-email";
+import { DialogServiceLine } from "./dialog-service-line";
 
 import { Avatar, AvatarFallback } from "~/components/ui/avatar";
 import { Badge } from "~/components/ui/badge";
@@ -39,6 +40,10 @@ const STRINGS = {
   serviceLine: "Service line",
   serviceLines: "Other service lines",
   noServiceLines: "No other service lines found",
+  serviceLineDialogTitle: {
+    create: "Create a service line",
+    edit: "Edit the service line",
+  },
 };
 
 // export const metadata: Metadata = {
@@ -61,6 +66,7 @@ const PageCompany = async ({ searchParams }: PageProps) => {
 
   const initials = getUppercaseInitials(company.company_name);
   const hasPOC = company.poc.length > 0;
+  const hasServiceLine = company.service_line.length > 0;
   const hasOtherServiceLines = company.service_line_urls.length > 0;
 
   return (
@@ -93,6 +99,18 @@ const PageCompany = async ({ searchParams }: PageProps) => {
               <h3 className="leading-none font-semibold">
                 {STRINGS.serviceLine}
               </h3>
+
+              <DialogServiceLine
+                companyId={company.id}
+                serviceLine={company.service_line}
+                title={
+                  hasServiceLine
+                    ? STRINGS.serviceLineDialogTitle.edit
+                    : STRINGS.serviceLineDialogTitle.create
+                }
+              >
+                {hasPOC ? <PencilIcon /> : <PlusIcon />}
+              </DialogServiceLine>
             </div>
 
             <p className="mt-3 mb-6 text-sm text-slate-500">
