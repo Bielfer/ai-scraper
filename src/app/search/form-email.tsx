@@ -1,8 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { CheckCircleIcon } from "lucide-react";
+import { toast } from "sonner";
+
+import { STRINGS as STRINGS_GENERAL } from "./strings";
 
 import { actionAddEmail } from "~/backend/react/company";
 import { Button } from "~/components/ui/button";
@@ -15,6 +20,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Textarea } from "~/components/ui/textarea";
+import { generateFullUrl } from "~/lib/helpers";
 import { cn } from "~/lib/utils";
 import { VALIDATION_MESSAGES } from "~/lib/validation";
 
@@ -35,6 +41,9 @@ type Props = {
 };
 
 export const FormEmail = ({ className, title, companyId }: Props) => {
+  const pathname = usePathname();
+  const query = useSearchParams().get("query")!;
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,7 +57,14 @@ export const FormEmail = ({ className, title, companyId }: Props) => {
   } = form;
 
   const onSubmit = async (values: FormSchema) => {
-    await actionAddEmail({ id: companyId, email: values.email });
+    await actionAddEmail({
+      id: companyId,
+      email: values.email,
+      revalidate: generateFullUrl(pathname, { query }),
+    });
+    toast(STRINGS_GENERAL.fieldUpdated, {
+      icon: <CheckCircleIcon className="size-6" />,
+    });
   };
 
   return (

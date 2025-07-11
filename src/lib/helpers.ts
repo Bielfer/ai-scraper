@@ -17,3 +17,12 @@ export const safeTry = async <T, E = Error>(
     return [null, error as E];
   }
 };
+
+export const generateFullUrl = (
+  pathname: string,
+  params: Record<string, string>,
+) => {
+  const searchParams = new URLSearchParams(params);
+
+  return `${pathname}?${searchParams.toString()}`;
+};

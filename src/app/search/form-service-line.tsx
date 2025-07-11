@@ -1,8 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
+import { CheckCircleIcon } from "lucide-react";
+
+import { STRINGS as STRINGS_GENERAL } from "./strings";
 
 import { actionUpdateServiceLine } from "~/backend/react/company";
 import { Button } from "~/components/ui/button";
@@ -15,6 +20,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Textarea } from "~/components/ui/textarea";
+import { generateFullUrl } from "~/lib/helpers";
 import { cn } from "~/lib/utils";
 import { VALIDATION_MESSAGES } from "~/lib/validation";
 
@@ -41,6 +47,9 @@ export const FormServiceLine = ({
   title,
   companyId,
 }: Props) => {
+  const pathname = usePathname();
+  const query = useSearchParams().get("query")!;
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -57,6 +66,10 @@ export const FormServiceLine = ({
     await actionUpdateServiceLine({
       id: companyId,
       serviceLine: values.serviceLine,
+      revalidate: generateFullUrl(pathname, { query }),
+    });
+    toast(STRINGS_GENERAL.fieldUpdated, {
+      icon: <CheckCircleIcon className="size-6" />,
     });
   };
 

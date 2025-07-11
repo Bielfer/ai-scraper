@@ -19,4 +19,5 @@ export const STRINGS = {
     create: "Create a service line",
     edit: "Edit the service line",
   },
+  fieldUpdated: "Field updated successfully",
 };
