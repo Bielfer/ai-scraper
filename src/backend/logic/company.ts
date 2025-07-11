@@ -2,6 +2,7 @@ import "server-only";
 
 import {
   dbCreateCompany,
+  dbGetCompany,
   dbGetCompanyByUrl,
   dbUpdateCompany,
 } from "../db/company";
@@ -31,4 +32,16 @@ export const getCompanyByUrl = async (url: string) => {
 
 export const updatePOC = async ({ id, poc }: { poc: string; id: string }) => {
   await dbUpdateCompany(id, { poc });
+};
+
+export const addEmail = async ({
+  id,
+  email,
+}: {
+  email: string;
+  id: string;
+}) => {
+  const company = await dbGetCompany(id);
+
+  await dbUpdateCompany(id, { emails: [...company.emails, email] });
 };

@@ -127,7 +127,10 @@ const PageCompany = async ({ searchParams }: PageProps) => {
 
             <div className="flex items-center gap-x-3">
               <h3 className="leading-none font-semibold">{STRINGS.emails}</h3>
-              <DialogEmail title={STRINGS.emailsDialogTitle.create}>
+              <DialogEmail
+                companyId={company.id}
+                title={STRINGS.emailsDialogTitle.create}
+              >
                 <PlusIcon />
               </DialogEmail>
             </div>
@@ -139,6 +142,7 @@ const PageCompany = async ({ searchParams }: PageProps) => {
                   </Button>
 
                   <DialogEmail
+                    companyId={company.id}
                     title={`${STRINGS.emailsDialogTitle.edit} ${email}`}
                     email={email}
                   >

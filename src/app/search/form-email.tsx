@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { actionAddEmail } from "~/backend/react/company";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -31,9 +32,10 @@ type Props = {
   className?: string;
   email?: string;
   title: string;
+  companyId: string;
 };
 
-export const FormEmail = ({ className, email, title }: Props) => {
+export const FormEmail = ({ className, email, title, companyId }: Props) => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,7 +49,11 @@ export const FormEmail = ({ className, email, title }: Props) => {
   } = form;
 
   const onSubmit = async (values: FormSchema) => {
-    console.log(values);
+    const isAdd = !email;
+
+    if (isAdd) {
+      await actionAddEmail(companyId, values.email);
+    }
   };
 
   return (
@@ -67,7 +73,9 @@ export const FormEmail = ({ className, email, title }: Props) => {
           )}
         />
         <div className="flex justify-end pt-6">
-          <Button type="submit">{STRINGS.save}</Button>
+          <Button type="submit" disabled={isSubmitting}>
+            {STRINGS.save}
+          </Button>
         </div>
       </form>
     </Form>

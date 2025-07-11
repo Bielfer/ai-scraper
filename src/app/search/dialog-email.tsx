@@ -14,9 +14,10 @@ type Props = {
   children: ReactNode;
   title: string;
   email?: string;
+  companyId: string;
 };
 
-export const DialogEmail = ({ children, title, email }: Props) => {
+export const DialogEmail = ({ children, title, email, companyId }: Props) => {
   return (
     <Dialog>
       <Button asChild variant="ghost" size="icon-small">
@@ -24,7 +25,7 @@ export const DialogEmail = ({ children, title, email }: Props) => {
       </Button>
       <DialogContent className="max-w-lg">
         <DialogTitle>{title}</DialogTitle>
-        <FormEmail title={title} email={email} />
+        <FormEmail title={title} email={email} companyId={companyId} />
       </DialogContent>
     </Dialog>
   );

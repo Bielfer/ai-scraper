@@ -38,5 +38,5 @@ export const dbGetCompanyByUrl = async (
 export const dbCreateCompany = (company: SimpleCompany) =>
   db.collection("company").add(company);
 
-export const dbUpdateCompany = (id: string, company: Partial<Company>) =>
+export const dbUpdateCompany = (id: string, company: Partial<SimpleCompany>) =>
   db.collection("company").doc(id).update(company);
