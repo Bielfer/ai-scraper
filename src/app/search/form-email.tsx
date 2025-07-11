@@ -48,7 +48,7 @@ export const FormEmail = ({ className, title, companyId }: Props) => {
   } = form;
 
   const onSubmit = async (values: FormSchema) => {
-    await actionAddEmail(companyId, values.email);
+    await actionAddEmail({ id: companyId, email: values.email });
   };
 
   return (

@@ -49,7 +49,7 @@ export const FormPOC = ({ className, poc, title, companyId }: Props) => {
   } = form;
 
   const onSubmit = async (values: FormSchema) => {
-    await actionUpdatePOC(companyId, values.poc);
+    await actionUpdatePOC({ id: companyId, poc: values.poc });
   };
 
   return (

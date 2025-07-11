@@ -54,7 +54,10 @@ export const FormServiceLine = ({
   } = form;
 
   const onSubmit = async (values: FormSchema) => {
-    await actionUpdateServiceLine(companyId, values.serviceLine);
+    await actionUpdateServiceLine({
+      id: companyId,
+      serviceLine: values.serviceLine,
+    });
   };
 
   return (

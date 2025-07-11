@@ -16,7 +16,7 @@ export const DeleteEmail = ({ emails, companyId }: Props) => {
       className="opacity-0 group-hover:opacity-100"
       variant="destructive"
       size="icon-small"
-      onClick={() => actionDeleteEmail(companyId, emails)}
+      onClick={() => actionDeleteEmail({ id: companyId, emails })}
     >
       <TrashIcon />
     </Button>
